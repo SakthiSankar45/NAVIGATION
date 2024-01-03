@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Button } from 'react-native';
 
 import IconButton from '../components/IconButton';
 import List from '../components/MealDetail/List';
@@ -20,11 +20,7 @@ function MealDetailScreen({ route, navigation }) {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <IconButton
-            icon="star"
-            color="white"
-            onPress={headerButtonPressHandler}
-          />
+          <IconButton icon="star" color="white" onTap={headerButtonPressHandler} />
         );
       },
     });
@@ -43,7 +39,10 @@ function MealDetailScreen({ route, navigation }) {
       <View style={styles.listOuterContainer}>
         <View style={styles.listContainer}>
           <SubTitle>Ingredients</SubTitle>
-          <List data={selectedMeal.ingredients} />
+          {/* {selectedMeal.ingrediants.map((ingrediant) => (
+                  <Text key={ingrediant}>{ingrediant}</Text>
+          ))} */}
+          <List data={selectedMeal.ingrediants} />
           <SubTitle>Steps</SubTitle>
           <List data={selectedMeal.steps} />
         </View>
