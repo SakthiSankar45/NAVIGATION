@@ -16,7 +16,8 @@ function MealsOverViewScreen({route, navigation}){
             title: categoryTitle
         });
     }, [catId, navigation]);
-    console.log(displayedMeals);
-    <MealsList items={displayedMeals}/>
+    return(
+        <MealsList items={displayedMeals}/>
+    );
 }
 export default MealsOverViewScreen;

@@ -4,7 +4,6 @@ import MealsItem from "./MealsItem";
 
 function MealsList({items}){
 
-    console.log("HI");
     function renderMealItems(itemData){
 
         const items = itemData.item;
