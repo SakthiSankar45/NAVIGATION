@@ -1,40 +1,46 @@
-import { useLayoutEffect } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Button } from 'react-native';
+import { useContext, useLayoutEffect } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
 import IconButton from '../components/IconButton';
-import List from '../components/MealDetail/List';
-import SubTitle from '../components/MealDetail/SubTitle';
-import MealDetails from '../components/MealDetails';
+import List from '../components/mealsDetails/List';
+import SubTitle from '../components/mealsDetails/SubTitle';
+import MealsDetails from '../components/MealsDetails';
 import { MEALS } from '../data/dummy-data';
+import { FavoriteContext } from '../store/context/Favorite-Context';
 
 function MealDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
-
+  const favoriteMealsCtx = useContext(FavoriteContext);
+  const mealIsFav = favoriteMealsCtx.ids.includes(mealId);
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
-  function headerButtonPressHandler() {
-    console.log('Pressed!');
+  function changeFavHandler() {
+    if(mealIsFav){
+      favoriteMealsCtx.removeFavorite(mealId);
+    }else{
+      favoriteMealsCtx.addFavorite(mealId);
+    }
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <IconButton icon="star" color="white" onTap={headerButtonPressHandler} />
+          <IconButton icon={mealIsFav ? 'star' : 'star-outline'} color="white" onTap={changeFavHandler} />
         );
       },
     });
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, changeFavHandler]);
 
   return (
     <ScrollView style={styles.rootContainer}>
       <Image style={styles.image} source={{ uri: selectedMeal.imageUrl }} />
       <Text style={styles.title}>{selectedMeal.title}</Text>
-      <MealDetails
+      <MealsDetails
         duration={selectedMeal.duration}
         complexity={selectedMeal.complexity}
         affordability={selectedMeal.affordability}
-        textStyle={styles.detailText}
+        extraStyle={styles.detailText}
       />
       <View style={styles.listOuterContainer}>
         <View style={styles.listContainer}>
